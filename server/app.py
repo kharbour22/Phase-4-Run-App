@@ -15,7 +15,7 @@ from models import Run
 class AllRuns(Resource):
 
     def get(self):
-        response_body = [run.to_dict(only = ('id', 'location', 'image', 'link')) for run in Run.quesry.all()]
+        response_body = [run.to_dict(only = ('id', 'location', 'image', 'link')) for run in Run.query.all()]
         return make_response(response_body, 200)
 api.add_resource(AllRuns, '/runs')
 
