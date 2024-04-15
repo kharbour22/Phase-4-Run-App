@@ -17,6 +17,20 @@ class AllRuns(Resource):
     def get(self):
         response_body = [run.to_dict(only = ('id', 'location', 'image', 'link')) for run in Run.query.all()]
         return make_response(response_body, 200)
+    def post (self):
+        try:
+            new_run = Run(location = request.json.get('location'), image = request.json.get('image'), link = request.json.get('link'))
+            db.session.add(new_run)
+            db.session.commit()
+            response_body = new_run.to_dict(only=('id', 'location', 'image', 'link'))
+            return make_response(response_body, 201)
+        except:
+            response_body = {
+                "error": "A run must have a location, image, and link"
+
+            }
+            return make_response(response_body, 400)
+
 api.add_resource(AllRuns, '/runs')
 
 @app.route('/')

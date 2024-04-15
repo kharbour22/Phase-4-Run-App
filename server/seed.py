@@ -8,12 +8,13 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, Run
+from models import db, Run, Signup
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         Run.query.delete()
+        Signup.query.delete
         print("Starting seed...")
 
         run1 = Run(location="North Table Mountain Park", image='c:\\Users\\kharb\\Pictures\\Screenshots\\NTM.png', link='https://www.alltrails.com/trail/us/colorado/north-table-mountain-west-loop')
