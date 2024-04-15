@@ -14,7 +14,7 @@ function App() {
   return (
     <div>
       <NavBar/>
-      <Outlet/>
+      <Outlet context={{runs: runs}}/>
       
     </div>
   )

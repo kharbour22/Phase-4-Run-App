@@ -1,6 +1,16 @@
+import { useOutletContext } from "react-router-dom"
+import Run from "./Run"
+
+
 function RunList(){
+    const {runs} = useOutletContext()
+
+    const runsComponents = runs.map(run => {
+        return <Run key = {run.id} run = {run} />
+    })
+
     return(
-        <h1>Here is the list of available runs!</h1>
+        <ul>{runsComponents}</ul>
     )
 }
 export default RunList
