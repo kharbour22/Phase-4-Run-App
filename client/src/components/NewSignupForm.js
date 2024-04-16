@@ -34,7 +34,7 @@ function NewSignupForm(){
     function handleSubmit(event){
         event.preventDefault()
         addSignup(formData)
-        navigate('signups_list')
+        navigate('/signups_list')
        
     }
 
@@ -48,7 +48,7 @@ return (
                 <select onChange={updateFormData} name="run_id">
                     {optionsElements}
                 </select>
-                <input onChange={updateFormData} type="datetime-local" name="date" placeholder="Start Time" value={formData.date} />
+                <input onChange={updateFormData} type="datetime-local" name="date" placeholder="Start Time" value={formData.date ? formData.date : ''} />
                 <input type="submit" value="Add Run" />
             </form>
         ) : (

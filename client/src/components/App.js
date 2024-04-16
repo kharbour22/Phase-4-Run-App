@@ -5,11 +5,18 @@ import NavBar from "./NavBar";
 function App() {
 
   const [runs, setRuns] = useState([])
+  const [signups, setSignups] = useState([])
   
   useEffect (() => {
     fetch('/runs')
-    .then(resonse => resonse.json())
+    .then(response => response.json())
     .then(runsData => setRuns(runsData))
+  }, [])
+
+  useEffect(() => {
+    fetch('signups')
+    .then(response => response.json())
+    .then(signupsData => setSignups(signupsData))
   }, [])
 
   function addRun(newRunData){
@@ -25,10 +32,22 @@ function App() {
     .then(newRunData => setRuns([...runs, newRunData]))
   }
 
+  function addSignup(newSignup){
+    fetch('/signups', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newSignup)
+    })
+    .then(response => response.json())
+    .then(newSignupData => setSignups([...signups, newSignupData]))
+  }
+
   return (
     <div>
       <NavBar/>
-      <Outlet context={{runs: runs, addRun: addRun}}/>
+      <Outlet context={{runs: runs, addRun: addRun, signups: signups, addSignup: addSignup}}/>
       
     </div>
   )

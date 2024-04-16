@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RunList from "./components/RunList";
 import NewRunForm from "./components/NewRunForm";
 import NewSignupForm from "./components/NewSignupForm";
+import SignupsList from "./components/SignupsList";
+
 
 
 
@@ -27,6 +29,10 @@ const router = createBrowserRouter([
             {
                 path: "/add_signup",
                 element: <NewSignupForm/>
+            },
+            {
+                path: "/signups_list",
+                element: <SignupsList/>
             }
 ]}
 ])

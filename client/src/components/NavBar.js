@@ -5,7 +5,8 @@ function NavBar(){
         <nav>
             <NavLink to="/">Home</NavLink>
             <NavLink to= "/add_run">Add Run</NavLink>
-            <NavLink to= "/add_signup">Add Signup</NavLink>
+            <NavLink to= "/add_signup">Signup</NavLink>
+            <NavLink to= "/signups_list">View Signups List</NavLink>
             
         </nav>
     )
