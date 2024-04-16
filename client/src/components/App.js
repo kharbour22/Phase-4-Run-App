@@ -14,13 +14,13 @@ function App() {
   }, [])
 
   useEffect(() => {
-    fetch('signups')
+    fetch('/signups')
     .then(response => response.json())
     .then(signupsData => setSignups(signupsData))
   }, [])
 
   function addRun(newRunData){
-    fetch('runs',{
+    fetch('/runs',{
       method: "Post",
       headers:{
         "Content-Type": "application/json",
@@ -45,9 +45,7 @@ function App() {
   }
 
   function updateRun(id, runDataForUpdate, setRunFromRunProfile){
-    // PATCH request - Write the code to update a run by id and update the 'runs' state with the updated run data.
-    // id - contains a number that refers to the id for the run that should be updated.
-    // runDataForUpdate - contains an object with the run data for the PATCH request.
+    
     fetch(`/runs/${id}`, {
         method: "PATCH",
         headers: {
@@ -84,8 +82,7 @@ function App() {
 }
 
 function deleteRun(id){
-    // DELETE request - Write the code to delete a run by id and update the 'runs' state to remove the run from the state.
-    // id - contains a number that refers to the id for the run that should be deleted.
+    
     fetch(`/runs/${id}`, {
         method: "DELETE"
     })

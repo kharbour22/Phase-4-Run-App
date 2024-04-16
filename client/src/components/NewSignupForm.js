@@ -3,6 +3,7 @@ import { useOutletContext, useNavigate } from "react-router-dom"
 
 
 function NewSignupForm(){
+    
 
     const [formData, setFormData] = useState({
         date: "",
