@@ -34,6 +34,68 @@ class AllRuns(Resource):
 
 api.add_resource(AllRuns, '/runs')
 
+class RunByID(Resource):
+
+    def get(self, id):
+        run = db.session.get(Run, id)
+
+        if run:
+            response_body = run.to_dict(rules=('-signups.run',))
+
+            # Add in the association proxy data (The run's customers)
+            # response_body['customers'] = [customer.to_dict(only=('id', 'first_name', 'last_name')) for customer in run.customers]
+            
+            return make_response(response_body, 200)
+        
+        else:
+            response_body = {
+                'error': "Run Not Found"
+            }
+            return make_response(response_body, 404)
+        
+    def patch(self, id):
+            run = db.session.get(Run, id)
+
+            if run:
+                try:
+                    for attr in request.json:
+                        setattr(run, attr, request.json[attr])
+                    
+                    db.session.commit()    
+                    response_body = run.to_dict(only=('id', 'location', 'image', 'link'))
+                    return make_response(response_body, 200)
+                
+                except:
+                    response_body = {
+                        "error": "Run must have a name and image, and the run name cannot be the same name as any other run!"
+                    }
+                    return make_response(response_body, 400)
+
+            else:
+                response_body = {
+                    'error': "Run Not Found"
+                }
+                return make_response(response_body, 404)
+        
+    def delete(self, id):
+        run = db.session.get(Run, id)
+
+        if run:
+            db.session.delete(run)
+            db.session.commit()
+            response_body = {}
+            return make_response(response_body, 204)
+        
+        else:
+            response_body = {
+                'error': "Run Not Found"
+            }
+            return make_response(response_body, 404)
+    
+api.add_resource(RunByID, '/runs/<int:id>')
+
+
+
 class AllSignups(Resource):
 
     def get(self):
@@ -54,6 +116,10 @@ class AllSignups(Resource):
             return make_response(response_body, 400)
 
 api.add_resource(AllSignups, '/signups')
+
+
+
+
 
 @app.route('/')
 def index():

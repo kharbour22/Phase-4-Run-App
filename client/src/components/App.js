@@ -44,10 +44,68 @@ function App() {
     .then(newSignupData => setSignups([...signups, newSignupData]))
   }
 
+  function updateRun(id, runDataForUpdate, setRunFromRunProfile){
+    // PATCH request - Write the code to update a run by id and update the 'runs' state with the updated run data.
+    // id - contains a number that refers to the id for the run that should be updated.
+    // runDataForUpdate - contains an object with the run data for the PATCH request.
+    fetch(`/runs/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(runDataForUpdate)
+    })
+    .then(response => {
+        if(response.ok){
+            response.json().then(updatedRunData => {
+                setRunFromRunProfile(updatedRunData)
+                setRuns(runs => runs.map(run => {
+                    if(run.id === updatedRunData.id){
+                        return updatedRunData
+                    }
+                    else{
+                        return run
+                    }
+                }))
+            })
+        }
+        else if(response.status === 400 || response.status === 404){
+            response.json().then(errorData => {
+                alert(`Error: ${errorData.error}`)
+            })
+        }
+        else{
+            response.json().then(() => {
+                alert("Error: Something went wrong.")
+            })
+        }
+    })
+}
+
+function deleteRun(id){
+    // DELETE request - Write the code to delete a run by id and update the 'runs' state to remove the run from the state.
+    // id - contains a number that refers to the id for the run that should be deleted.
+    fetch(`/runs/${id}`, {
+        method: "DELETE"
+    })
+    .then(response => {
+        if(response.ok){
+            setRuns(runs => runs.filter(run => {
+                return run.id !== id
+            }))
+        }
+        else if(response.status === 404){
+            response.json().then(errorData => alert(`Error: ${errorData.error}`))
+        }
+    })
+}
+
+
   return (
     <div>
       <NavBar/>
-      <Outlet context={{runs: runs, addRun: addRun, signups: signups, addSignup: addSignup}}/>
+      <Outlet context={{runs: runs, addRun: addRun, signups: signups, addSignup: addSignup, deleteRun: deleteRun, updateRun: updateRun}}/>
       
     </div>
   )
