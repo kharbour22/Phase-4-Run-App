@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RunList from "./components/RunList";
 import NewRunForm from "./components/NewRunForm";
+import NewSignupForm from "./components/NewSignupForm";
 
 
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path: "/add_run",
                 element: <NewRunForm/>
+            },
+            {
+                path: "/add_signup",
+                element: <NewSignupForm/>
             }
 ]}
 ])

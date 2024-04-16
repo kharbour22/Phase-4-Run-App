@@ -1,6 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
+from datetime import datetime
 
 from config import db
 
@@ -32,6 +33,11 @@ class Signup(db.Model, SerializerMixin):
 
     run = db.relationship('Run', back_populates = 'signups')
 
-
+    @validates('run_id')
+    def validate_run_id(self, attr, value):
+        if not value:
+            raise ValueError(f"Signup must have a {attr}!")
+        else:
+            return value
 
 
