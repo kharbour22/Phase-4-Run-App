@@ -104,7 +104,7 @@ class AllSignups(Resource):
 
     def post(self):
         try:
-            new_signup = Signup(date = request.json.get('date'), flight_id=request.json.get('run_id'))
+            new_signup = Signup(date = request.json.get('date'), run_id=request.json.get('run_id'))
             db.session.add(new_signup)
             db.session.commit()
             response_body = new_signup.to_dict(rules = ('-run.signups',))

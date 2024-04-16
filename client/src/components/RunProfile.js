@@ -68,7 +68,8 @@ function RunProfile(){
             {run ?
             <div className="run-profile">
                 <img src={run.image} alt={run.location}/>
-                <h4>{run.name}</h4>
+                <h4>{run.location}</h4>
+                <h4>{run.link}</h4>
                 { !displayForm ?
                 <div className="button-div">
                     <button onClick={toggleDisplayForm} className="update-button">Update Run</button>
