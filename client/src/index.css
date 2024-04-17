@@ -5,3 +5,11 @@
   --text: hsla(0, 0%, 100%, 0.88);
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar a {
+  padding: 0 10px; /* Add padding to create space around each link */
+}

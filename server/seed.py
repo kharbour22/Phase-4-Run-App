@@ -36,7 +36,7 @@ if __name__ == '__main__':
         db.session.add(signup1)
         db.session.commit()
 
-        password_1 = "ab123"
+        password_1 = "kharbour"
         pw_hash_1 = bcrypt.generate_password_hash(password_1).decode('utf-8')
 
         password_2 = "flatironschool"
@@ -45,9 +45,9 @@ if __name__ == '__main__':
         password_3 = "python"
         pw_hash_3 = bcrypt.generate_password_hash(password_3).decode('utf-8')
 
-        user1 = User(first_name="Alice", last_name="Baker", username="alicebaker123", password_hash=pw_hash_1, type="customer")
-        user2 = User(first_name="Bob", last_name="Carris", username="bobcarris456", password_hash=pw_hash_2, type="customer")
-        user3 = User(first_name="Cynthia", last_name="Dawson", username="cynthiadawson789", password_hash=pw_hash_3, type="customer")
+        user1 = User(first_name="Kevin", last_name="Harbour", username="kharbour", password_hash=pw_hash_1, type="admin")
+        user2 = User(first_name="Bob", last_name="Carris", username="bobcarris456", password_hash=pw_hash_2, type="user")
+        user3 = User(first_name="Cynthia", last_name="Dawson", username="cynthiadawson789", password_hash=pw_hash_3, type="user")
 
         db.session.add_all([user1, user2, user3])
 

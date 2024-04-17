@@ -23,7 +23,8 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <RunList/>
+                element: <RunList/>,
+                
             },
             {
                 path: "/add_run",
