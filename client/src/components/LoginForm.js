@@ -22,7 +22,7 @@ function LoginForm(){
     }
 
     return (
-        <div className="new-hotel-form">
+        <div className="new-run-form">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
             <input onChange={updateFormData} type="text" name="username" placeholder="Username" value={formData.username} required />

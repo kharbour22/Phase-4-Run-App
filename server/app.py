@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, make_response
+from flask import request, make_response, session, request, Flask
 from flask_restful import Resource
 from datetime import datetime
 from flask_bcrypt import Bcrypt
@@ -201,8 +201,85 @@ class UserByID(Resource):
 
 api.add_resource(UserByID, '/users/<int:id>')
 
+class Login(Resource):
 
+    def post(self):
+        username = request.json.get('username')
+        password = request.json.get('password')
+        user = User.query.filter(User.username == username).first()
 
+        if(user and bcrypt.check_password_hash(user.password_hash, password)):
+            session['user_id'] = user.id
+            response_body = user.to_dict(rules=('-signups.run', '-signups.user', '-password_hash'))
+
+            # Add in the association proxy data (The user's hotels) while removing duplicate hotel data for the user's hotels
+            response_body['runs'] = [run.to_dict(only=('id', 'location', 'image', 'link')) for run in list(set(user.runs))]
+
+            return make_response(response_body, 201)
+        else:
+            response_body = {
+                "error": "Invalid username or password!"
+            }
+            return make_response(response_body, 401)
+    
+api.add_resource(Login, '/login')
+
+class CheckSession(Resource):
+
+    def get(self):
+        user = db.session.get(User, session.get('user_id'))
+
+        if(user):
+            response_body = user.to_dict(rules=('-signups.run', '-signups.user', '-password_hash'))
+
+            # Add in the association proxy data (The user's hotels) while removing duplicate hotel data for the user's hotels
+            response_body['runs'] = [run.to_dict(only=('id', 'location', 'image', 'link')) for run in list(set(user.runs))]
+
+            return make_response(response_body, 200)
+        else:
+            response_body = {
+                "error": "Please Log In!"
+            }
+            return make_response(response_body, 401)
+
+api.add_resource(CheckSession, '/check_session')
+
+class Logout(Resource):
+    
+    def delete(self):
+        if(session.get('user_id')):
+            del(session['user_id'])
+
+        response_body = {}
+        return make_response(response_body, 204)
+    
+api.add_resource(Logout, '/logout')
+
+class Register(Resource):
+
+    def post(self):
+        try:
+            password = request.json.get('password')
+            pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+            new_user = User(first_name=request.json.get('first_name'), last_name=request.json.get('last_name'), username=request.json.get('username'), password_hash=pw_hash, type='user')
+            db.session.add(new_user)
+            db.session.commit()
+            session['user_id'] = new_user.id
+
+            # Updated the response_body here to be consistent with the serialized data in the responses from '/login' and '/check_session'.
+            response_body = new_user.to_dict(rules=('-signups.run', '-signups.user', '-password_hash'))
+
+            # Add in the association proxy data (The user's hotels) while removing duplicate hotel data for the user's hotels
+            response_body['runs'] = [run.to_dict(only=('id', 'location', 'image', 'link')) for run in list(set(new_user.runs))]
+
+            return make_response(response_body, 201)
+        except:
+            response_body = {
+                "error": "User's first name and last name cannot be the same, and first name and last name must be at least 3 characters long! User must have a username and password!"
+            }
+            return make_response(response_body, 400)
+        
+api.add_resource(Register, '/register')
 
 
 
