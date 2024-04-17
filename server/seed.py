@@ -7,14 +7,17 @@ from random import randint, choice as rc
 # Remote library imports
 from faker import Faker
 
+
+
 # Local imports
-from app import app
-from models import db, Run, Signup
+from app import app, bcrypt
+from models import db, Run, Signup, User
 
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         Run.query.delete()
+        User.query.delete()
         Signup.query.delete()
         print("Starting seed...")
 
@@ -27,11 +30,28 @@ if __name__ == '__main__':
         db.session.add(run2)
        
         db.session.commit()
+
         signup1 = Signup(date=datetime(2022, 4, 15, 10, 30), run = run1 )
 
         db.session.add(signup1)
         db.session.commit()
 
+        password_1 = "ab123"
+        pw_hash_1 = bcrypt.generate_password_hash(password_1).decode('utf-8')
+
+        password_2 = "flatironschool"
+        pw_hash_2 = bcrypt.generate_password_hash(password_2).decode('utf-8')
+
+        password_3 = "python"
+        pw_hash_3 = bcrypt.generate_password_hash(password_3).decode('utf-8')
+
+        user1 = User(first_name="Alice", last_name="Baker", username="alicebaker123", password_hash=pw_hash_1, type="customer")
+        user2 = User(first_name="Bob", last_name="Carris", username="bobcarris456", password_hash=pw_hash_2, type="customer")
+        user3 = User(first_name="Cynthia", last_name="Dawson", username="cynthiadawson789", password_hash=pw_hash_3, type="customer")
+
+        db.session.add_all([user1, user2, user3])
+
+        db.session.commit()
 
 
         

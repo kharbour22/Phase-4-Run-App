@@ -9,7 +9,8 @@ import NewRunForm from "./components/NewRunForm";
 import NewSignupForm from "./components/NewSignupForm";
 import SignupsList from "./components/SignupsList";
 import RunProfile from "./components/RunProfile";
-
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
 
 
@@ -39,7 +40,15 @@ const router = createBrowserRouter([
             {
                 path: "/runs/:id",
                 element: <RunProfile/>
-            }
+            },
+            {
+                path: "/login",
+                element: <LoginForm/>
+              },
+              {
+                path: "/signup",
+                element: <RegisterForm/>
+              }
 ]}
 ])
 

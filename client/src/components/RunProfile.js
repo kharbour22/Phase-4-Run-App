@@ -14,7 +14,7 @@ function RunProfile(){
     // id - contains a number that refers to the id for the hotel that should be retrieved via fetch() (GET request) in the callback function in useEffect().
     const {id} = useParams()
 
-    const {deleteRun, updateRun} = useOutletContext()
+    const {deleteRun, updateRun, user} = useOutletContext()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -70,23 +70,24 @@ function RunProfile(){
                 <img src={run.image} alt={run.location}/>
                 <h4>{run.location}</h4>
                 <h4>{run.link}</h4>
-                { !displayForm ?
-                <div className="button-div">
-                    <button onClick={toggleDisplayForm} className="update-button">Update Run</button>
-                    <button onClick={handleDeleteButtonClick} className="delete-button">Delete Run</button>
-                </div> :
-                <form onSubmit={handleSubmit} className="edit-run">
-                    <input onChange={updateFormData} type="text" name="location" placeholder="Run name" value={formData.location} />
-                    <input onChange={updateFormData} type="text" name="image" placeholder="Image URL" value={formData.image} />
-                    <input onChange={updateFormData} type="text" name="link" placeholder="URL link" value={formData.link} />
-                    <button type="submit">Save Changes</button>
-                </form>
-                }
+                {user && user.type === 'admin' ?
+                    !displayForm ?
+                    <div className="button-div">
+                        <button onClick={toggleDisplayForm} className="update-button">Update Run</button>
+                        <button onClick={handleDeleteButtonClick} className="delete-button">Delete Run</button>
+                    </div> :
+                    <form onSubmit={handleSubmit} className="edit-run">
+                        <input onChange={updateFormData} type="text" name="location" placeholder="Run name" value={formData.location} />
+                        <input onChange={updateFormData} type="text" name="image" placeholder="Image URL" value={formData.image} />
+                        <input onChange={updateFormData} type="text" name="link" placeholder="URL link" value={formData.link} />
+                        <button type="submit">Save Changes</button>
+                    </form>
+                : null}
             </div> :
             null
             }
         </>
     );
-}
+}  
 
 export default RunProfile;
