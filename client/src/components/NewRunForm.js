@@ -26,7 +26,7 @@ function NewRunForm(){
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Add New Run</h2>
+            <h2>Add a new run!</h2>
             <input onChange = {updateFormData} type="text" name="location" placeholder="Run location" value={formData.location}/>
             <input onChange = {updateFormData} type="text" name="image" placeholder="Add Image" value= {formData.image}/>
             <input onChange = {updateFormData} type="text" name="link" placeholder="URL Link" value = {formData.link}/>

@@ -1,11 +1,15 @@
-function Run({run}){
+import React from 'react';
+
+function Run({ run }) {
     return (
         <div>
-            <img src = {run.image} alt={run.location}/>
-            <h2>{run.location}</h2> 
-            <h3>{run.link}</h3>
+            <img src={run.image} alt={run.location} />
+            <h2>{run.location}</h2>
+            <a href={run.link}>
+    
+            </a>
         </div>
-    )
+    );
 }
 
-export default Run
+export default Run;

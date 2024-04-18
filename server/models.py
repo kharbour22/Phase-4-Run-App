@@ -30,7 +30,7 @@ class Signup(db.Model, SerializerMixin):
     __tablename__ = 'signups'
 
     id = db.Column(db.Integer, primary_key = True)
-    date = db.Column(db.DateTime, nullable = False)
+    date = db.Column(db.Integer, nullable = False)
 
     run_id = db.Column(db.Integer, db.ForeignKey('runs.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

@@ -45,8 +45,8 @@ class RunByID(Resource):
         if run:
             response_body = run.to_dict(rules=('-signups.run',))
 
-            # Add in the association proxy data (The run's customers)
-            # response_body['customers'] = [customer.to_dict(only=('id', 'first_name', 'last_name')) for customer in run.customers]
+            
+            # response_body['users'] = [user.to_dict(only=('id', 'first_name', 'last_name')) for user in run.users]
             
             return make_response(response_body, 200)
         
@@ -119,6 +119,31 @@ class AllSignups(Resource):
             return make_response(response_body, 400)
 
 api.add_resource(AllSignups, '/signups')
+
+class SignupByID(Resource):
+    def get(self, id):
+        signup = db.session.query(Signup, id)
+
+        if signup:
+            response_body = signup.to_dict()  # Convert the signup object to a dictionary
+            return make_response(response_body, 200)
+        else:
+            response_body = {'error': "Signup Not Found"}
+            return make_response(response_body, 404)
+
+    def delete(self, id):
+        signup = db.session.query(Signup).get(id)
+
+        if signup:
+            db.session.delete(signup)
+            db.session.commit()
+            response_body = {}
+            return make_response(response_body, 204)
+        else:
+            response_body = {'error': "Signup Not Found"}
+            return make_response(response_body, 404)
+
+api.add_resource(SignupByID, '/signups/<int:id>')
 
 class AllUsers(Resource):
 

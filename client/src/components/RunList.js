@@ -1,13 +1,20 @@
-import { useOutletContext } from "react-router-dom"
-import Run from "./Run"
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link component from React Router
+import { useOutletContext } from "react-router-dom";
+import Run from "./Run";
 
+function RunList() {
+    const { runs, user } = useOutletContext();
 
-function RunList(){
-    const {runs, user} = useOutletContext()
+    const runsComponents = runs.map(run => (
+        
+        <Link key={run.id} to={`/runs/${run.id}`}>
+            <Run
+                run={run}
+            />
+        </Link>
+    ));
 
-    const runsComponents = runs.map(run => {
-        return <Run key = {run.id} run = {run} />
-    })
     function displayRunInfo() {
         if (user && user.type === 'admin') {
             return <h1>Here are all of the runs:</h1>;
@@ -20,12 +27,13 @@ function RunList(){
         }
     }
 
-    return(
+    return (
         <>
-            <br/>
+            <br />
             {user ? displayRunInfo() : null}
             <ul className="run-list">{runsComponents}</ul>
         </>
-    )
+    );
 }
-export default RunList
+
+export default RunList;

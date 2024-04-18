@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Switch, Route, Outlet, useNavigate, Navigate } from "react-router-dom";
 import NavBar from "./NavBar";
+import Signup from "./Signup";
 
 function App() {
 
@@ -65,6 +66,26 @@ function App() {
     .then(response => response.json())
     .then(newSignupData => setSignups([...signups, newSignupData]))
   }
+
+  function deleteSignup(id) {
+    fetch(`/signups/${id}`, {
+        method: "DELETE"
+    })
+    .then(response => {
+        if (response.ok) {
+            setSignups(signups => signups.filter(signup => {
+                return signup.id !==id
+            }))
+        }
+        else if(response.status === 404){
+            response.json().then(errorData => alert(`Error: ${errorData.error}`))
+        }
+    
+    
+    });
+   }
+
+;
 
   function updateRun(id, runDataForUpdate, setRunFromRunProfile){
     
@@ -185,7 +206,7 @@ function registerUser(registerData){
     <div className="app">
       <NavBar user = {user} logOutUser = {logOutUser}/>
       {user ? <h2>Welcome {user.username}!</h2> : null}
-      <Outlet context={{runs: runs, addRun: addRun, signups: signups, addSignup: addSignup, deleteRun: deleteRun, updateRun: updateRun, logInUser: logInUser, registerUser:registerUser}}/>
+      <Outlet context={{runs: runs, addRun: addRun, signups: signups, addSignup: addSignup, deleteRun: deleteRun, updateRun: updateRun, logInUser: logInUser, registerUser:registerUser, deleteSignup: deleteSignup}}/>
       
     </div>
   )

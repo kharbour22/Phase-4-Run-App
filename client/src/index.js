@@ -11,6 +11,7 @@ import SignupsList from "./components/SignupsList";
 import RunProfile from "./components/RunProfile";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import SignupProfile from "./components/SignupProfile";
 
 
 
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <RunList/>,
+                element: <RunList/>
                 
             },
             {
@@ -49,7 +50,12 @@ const router = createBrowserRouter([
               {
                 path: "/register",
                 element: <RegisterForm/>
+              },
+              {
+                path: "signups/:id",
+                element: <SignupProfile/>
               }
+             
 ]}
 ])
 
