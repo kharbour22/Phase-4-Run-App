@@ -31,7 +31,7 @@ if __name__ == '__main__':
        
         db.session.commit()
 
-        signup1 = Signup(date=15, run = run1 )
+        signup1 = Signup(date=datetime(2022, 4, 15, 10, 30), run = run1 )
 
         db.session.add(signup1)
         db.session.commit()
