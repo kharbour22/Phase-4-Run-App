@@ -12,7 +12,7 @@ function App() {
 
   
   useEffect(() => {
-    // GET request - Retrieve all hotels and update the 'hotels' state with the hotel data.
+    
     fetch('/runs')
         .then(response => {
             if(response.ok){
@@ -22,7 +22,7 @@ function App() {
   }, [user])
 
   useEffect(() => {
-    // GET request - Check if the user is logged in
+    
     fetch('/check_session')
     .then(response => {
         if(response.ok){
@@ -143,7 +143,7 @@ function deleteRun(id){
 
 
 function logInUser(loginData){
-  // POST request - Log in a user.
+  
   fetch('/login', {
       method: "POST",
       headers: {
@@ -166,7 +166,7 @@ function logInUser(loginData){
 }
 
 function logOutUser(){
-  // DELETE request - Log out a user.
+  
   fetch('/logout', {
       method: "DELETE"
   })
